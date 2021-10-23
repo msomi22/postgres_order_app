@@ -33,6 +33,11 @@ public class OrderController {
 	@Value("${file.upload-dir}")
 	private String uploadFolder;
 	
+	@Value("${uploader.usethread}")
+	private boolean useThread;
+	
+	//
+	
 	
 	@RequestMapping(value="upload/v1", method = RequestMethod.POST ,
 			consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
@@ -40,7 +45,7 @@ public class OrderController {
 	public ResponseEntity<Response> postFile(@RequestPart("file") MultipartFile file,
 			HttpServletRequest httpRequest) {
 		 System.out.println("Received Request ..... uploadFolder = " + uploadFolder);
-		return oderService.uploadFile(file, uploadFolder);
+		return oderService.uploadFile(file, uploadFolder, useThread);
 	}
 	
 	
