@@ -2,8 +2,8 @@ package com.himansusahoo.FileAPI.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.himansusahoo.FileAPI.bean.Response;
 import com.himansusahoo.FileAPI.repo.OrderRepository;
 import com.himansusahoo.FileAPI.service.OderService;
 
@@ -40,9 +39,11 @@ public class OrderController {
 	
 	@GetMapping
 	public String getIndex(Model model) {
-		model.addAttribute("msg", "Welcome to Thymeleaf");
+		model.addAttribute("msg", "Welcome to Order App");
 		
-		model.addAttribute("orders", orderRepo.findAll());
+		Pageable first = PageRequest.of(0, 10);
+		
+		model.addAttribute("orders", orderRepo.findAll(first));
 		
 		return "index";
 	}
