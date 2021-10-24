@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Submit File as Multipart</h1>
+
+<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
+    <input type="file" name="file"/><br/><br/>
+    <input type="submit" value="Submit" id="btnSubmit"/>
+</form>
+
+<span id="result"></span>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+</body>
+
+
+<script type="text/javascript">
+
+const form = document.getElementById('fileUploadForm');
+
+/*
+form.onsubmit = async (e) => {
+  e.preventDefault();
+  const form = e.currentTarget;
+  const url = "http://localhost:8082/order/upload/v1";
+  const formData = new FormData(form);
+
+	fetch(url, {
+		  method: 'POST', // The method
+		  mode: 'no-cors', // It can be no-cors, cors, same-origin
+		  dataType: "multipart/form-data",
+		  headers: {
+		    'Content-Type': 'application/json', // Your headers
+		  },
+		  body: JSON.stringify(formData),
+		}).then(returnedData => {
+			console.log("returnedData====" + JSON.stringify(returnedData));
+		  // Do whatever with returnedData
+		}).catch(err => {
+			console.log("err====" + err);
+		  // In case it errors.
+		})*/
+
+ /* try {
+      const formData = new FormData(form);
+      const response = await fetch(url, {
+          method: 'POST',
+          mode: 'no-cors', 
+          origin: 'localhost:8082',
+          'Access-Control-Allow-Origin': '*',
+           Accept: 'application/json', 
+          body: formData
+      }).then(response => {
+      	  console.log("response====" + response);
+      });
+
+      
+
+      var str = JSON.stringify(response);
+
+      console.log("response====" + str);
+  } catch (error) {
+      console.error("error=====" + error);
+  }*/
+
+/*
+var form = new FormData();
+form.append("file", "Order.csv");
+
+var settings = {
+  "async": true,
+  "crossDomain": true,
+  "url": "http://localhost:8082/order/upload/v1",
+  "method": "POST",
+  "headers": {
+    "cache-control": "no-cache",
+    "postman-token": "b778e0a8-e999-3eca-2fa3-1d01f7fa3048"
+  },
+  "processData": false,
+  "contentType": false,
+  "mimeType": "multipart/form-data",
+  "data": form
+}
+
+$.ajax(settings).done(function (response) {
+  console.log(response);
+});
+
+*/
+
+
+
+/*
+	
+$(document).ready(function () {
+
+	$.support.cors = true;
+
+    $("#btnSubmit").click(function (event) {
+        event.preventDefault();
+        var form = $('#fileUploadForm')[0];
+        var data = new FormData(form);
+		// disabled the submit button
+		//curl -X POST "http://127.0.0.1:8082/order/upload/v1" -H "accept: application/json" -H "Content-Type: multipart/form-data" -F "file=@Order.csv;type=text/csv"
+        $("#btnSubmit").prop("disabled", true);
+        $.ajax({
+            type: "POST",
+            dataType: "multipart/form-data",
+            mode: 'no-cors', 
+            origin: 'localhost:8082',
+            'Access-Control-Allow-Origin': '*',
+            Accept: 'application/json', 
+            crossDomain: true,
+            format: "text/csv",
+            host: "localhost:8082",
+            url: "http://localhost:8082/order/upload/v1",
+            "mimeType": "multipart/form-data",
+            data: data,
+            processData: false,
+            contentType: false,
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+                $("#result").text(data);
+                console.log("SUCCESS : ", data);
+                $("#btnSubmit").prop("disabled", false);
+
+            },
+            error: function (e) {
+                $("#result").text(e.responseText);
+                //console.log("ERROR0 : ", e.responseText);
+                //console.log("ERROR1 : ", e);
+                $("#btnSubmit").prop("disabled", false);
+
+            }
+        });
+
+    });
+
+});
+
+*/
+
+
+//const form = document.getElementById('fileUploadForm');
+const data = new FormData(form);
+//event.preventDefault();
+form.addEventListener('submit', upload);
+
+
+function upload (e) {
+     console.log('=======================');
+   e.preventDefault();
+
+fetch('http://127.0.0.1:8082/order/upload/v1', {
+            type: "POST",
+            dataType: "multipart/form-data",
+            mode: 'no-cors', 
+            origin: 'localhost:8082',
+            'Access-Control-Allow-Origin': '*',
+            Accept: 'application/json', 
+            crossDomain: true,
+            format: "text/csv",
+            host: "localhost:8082",
+            url: "http://localhost:8082/order/upload/v1",
+            "mimeType": "multipart/form-data",
+            data: data,
+            processData: false,
+            //contentType: false,
+            cache: false,
+            timeout: 600000,
+  headers: {
+    'Content-Type': 'application/json', // Your headers
+  },
+  body: JSON.stringify(data),
+}).then(returnedData => {
+	 console.log("SUCCESS : ", data);
+  // Do whatever with returnedData
+}).catch(err => {
+	 console.log("SUCCESS : ", err);
+  // In case it errors.
+});
+}
+
+
+
+</script>
+
+</html>
+
+

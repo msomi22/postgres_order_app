@@ -1,32 +1,30 @@
 package com.himansusahoo.FileAPI.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.himansusahoo.FileAPI.bean.Response;
+import com.himansusahoo.FileAPI.repo.OrderRepository;
 import com.himansusahoo.FileAPI.service.OderService;
 
 
-@RestController
-@RequestMapping("/order")
+@Controller
 @ControllerAdvice
 public class OrderController {
 	
-	//http://localhost:8082/order/upload/v1
 	@Autowired
 	private OderService oderService;
 	
@@ -36,37 +34,59 @@ public class OrderController {
 	@Value("${uploader.usethread}")
 	private boolean useThread;
 	
-	//
+	@Autowired
+	private OrderRepository orderRepo;
 	
 	
-	@RequestMapping(value="upload/v1", method = RequestMethod.POST ,
-			consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
-			produces =  {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<Response> postFile(@RequestPart("file") MultipartFile file,
-			HttpServletRequest httpRequest) {
+	@GetMapping
+	public String getIndex(Model model) {
+		model.addAttribute("msg", "Welcome to Thymeleaf");
+		
+		model.addAttribute("orders", orderRepo.findAll());
+		
+		return "index";
+	}
+	
+	
+	@PostMapping("/upload")
+	public String postFile(@RequestParam("file") MultipartFile file, RedirectAttributes attributes) {
+		
+        if (file.isEmpty()) {
+            attributes.addFlashAttribute("uploadRes", "Please select a file.");
+            return "redirect:/";
+        }
+		
 		 System.out.println("Received Request ..... uploadFolder = " + uploadFolder);
-		return oderService.uploadFile(file, uploadFolder, useThread);
+		 
+		 oderService.uploadFile(file, uploadFolder, useThread);
+		
+		 attributes.addFlashAttribute("uploadRes", "Uplaoded Successfully");
+         return "redirect:/";
 	}
 	
 	
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
-	public ResponseEntity<Response> handleFileSizeError() {
-		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response(0, "Rejected")); 
+	public String handleFileSizeError(RedirectAttributes attributes) {
+		 attributes.addFlashAttribute("uploadRes", "Rejected");
+         return "redirect:/";
 	}
 
 	@ExceptionHandler(MissingServletRequestPartException.class)
-	public ResponseEntity<Response> handleBadRequestError() {
-		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response(0, "Rejected")); 
+	public String handleBadRequestError(RedirectAttributes attributes) {
+		 attributes.addFlashAttribute("uploadRes", "Rejected");
+         return "redirect:/";
 	}
 
 	@ExceptionHandler(Error.class)
-	public ResponseEntity<Response> fileNotFound() {
-		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response(0, "Rejected")); 
+	public String fileNotFound(RedirectAttributes attributes) {
+		 attributes.addFlashAttribute("uploadRes", "Rejected");
+         return "redirect:/";
 	}
 	
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<Response> serverError() {
-		return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response(0, "Rejected")); 
+	public String serverError(RedirectAttributes attributes) {
+		 attributes.addFlashAttribute("uploadRes", "Rejected");
+         return "redirect:/";
 	}
 
 	
