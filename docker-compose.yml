@@ -3,7 +3,7 @@ services:
     environment: 
       FILES_REPO: /tmp/files
       ENABLE_THREAD: false
-    image: "FileAPI:latest"
+    image: "fileapi:latest"
     links: 
       - postgres
     ports: 
