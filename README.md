@@ -8,7 +8,7 @@
 docker pull bobiologist/file-api:latest
 
 ## Build docker Image 
-* docker build . -t fileapi:latest
+* docker build -t fileapi:latest .
 * 
 * docker-compose up
 * Create the below table 
