@@ -9,7 +9,6 @@ docker pull bobiologist/file-api:latest
 
 ## Build docker Image 
 * docker build -t fileapi:latest .
-* 
 * docker-compose up
 * Create the below table 
 
@@ -53,7 +52,7 @@ docker pull bobiologist/file-api:latest
 * alter database orderdb owner to uorder;
 
 * mvn clean install
-* docker build -t fileapi:lates .
+* docker build -t fileapi:latest .
 
 * docker-compuse up -d
 * docker-compuse down
