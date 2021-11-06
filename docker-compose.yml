@@ -1,22 +1,37 @@
+version: "3.8"
+# =============================  
 services: 
-  application: 
-    environment: 
-      FILES_REPO: /tmp/files
-      ENABLE_THREAD: false
-    image: "FileAPI:latest"
-    links: 
-      - postgres
-    ports: 
-      - "8080:8082"
-  postgres: 
-    environment: 
-      PGDATA: /tmp
-      POSTGRES_DB: demodb
-      POSTGRES_PASSWORD: root
-      POSTGRES_USER: root
+  postgresdb: 
     image: "postgres:latest"
+    container_name: postgresdb
+    network_mode: mynet
+    expose:
+     - 5433
     ports: 
-      - "5432:5432"
+      - 5433:5432
+    environment: 
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: orderdb
+      POSTGRES_PASSWORD: order123
+      POSTGRES_USER: urder
     volumes: 
-      - "e:/docker/volume/postgres:/var/lib/postgresql/data"
-version: "3"
+      - "/Users/pmnjeru/Downloads/FileAPI/FileAPI/data:/var/lib/postgresql/data"
+# =============================     
+  application: 
+    image: "fileapi:latest"
+    network_mode: mynet
+    container_name: fileapi
+    build: ./
+    depends_on:
+      - postgresdb  
+    ports: 
+      - "8082:8082"
+    environment: 
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresdb:5432/orderdb
+      - SPRING_DATASOURCE_USERNAME=uorder
+      - SPRING_DATASOURCE_PASSWORD=order123
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+   
+ # =============================     
+
+

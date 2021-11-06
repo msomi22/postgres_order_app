@@ -45,6 +45,8 @@ public class OrderController {
 		
 		model.addAttribute("orders", orderRepo.findAll(first));
 		
+		model.addAttribute("count", orderRepo.findAll().size());
+		
 		return "index";
 	}
 	

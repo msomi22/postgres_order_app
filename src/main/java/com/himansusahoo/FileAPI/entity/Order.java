@@ -17,6 +17,7 @@ public class Order {
 	
 	@Column(name="region")
 	private String region;
+	
 	@Column(name="country")
 	private String country;
 	

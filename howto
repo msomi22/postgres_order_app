@@ -1,0 +1,30 @@
+
+
+# Running locally without docker/K8s
+
+
+1. Install PostgreSQL 14
+2. Create a user, a database and the below table. For example.
+   - databse: orderdb
+   - user: postgres
+   - password: root
+3. To create the table execute the below script
+================================================
+
+================================================
+4. Once the table is created, update the application.properties with new database details
+    - you can vim the jar file and update the properties or
+    - place update properties next or in same directory with the jar
+    - run the jar [java -jar FileAPI-0.0.1-SNAPSHOT.jar]
+    - to run in background [nohup ava -jar FileAPI-0.0.1-SNAPSHOT.jar &]
+
+
+
+
+# Running locally in Docker
+
+
+# Running on Cloud -> Azure
+
+
+# Running on Cloud -> AWS 

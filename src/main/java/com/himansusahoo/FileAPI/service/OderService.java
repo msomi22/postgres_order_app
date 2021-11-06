@@ -113,6 +113,7 @@ public class OderService {
 						if (null != order) {
 							System.out.println("Adding order >>>> " + order);
 							orders.add(order);
+							orderRepo.save(order);
 						}
 					} else {
 						System.out.println("Skipping header " + line);
