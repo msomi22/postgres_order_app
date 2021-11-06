@@ -3,9 +3,14 @@
 ## File upload API 
 * curl -X POST "http://localhost:8082/order/upload/v1" -H "accept: application/json" -H "Content-Type: multipart/form-data" -F "file=@Order.csv;type=text/csv"
 
-## Build docker Image 
-* docker build --tag="FileAPI:latest"
+**Pull Docker image by issuing the below command**
 
+docker pull bobiologist/file-api:latest
+
+## Build docker Image 
+* docker build . -t fileapi:latest
+* 
+* docker-compose up
 * Create the below table 
 
 ```SQL
