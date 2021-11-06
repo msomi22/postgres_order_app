@@ -35,30 +35,31 @@ docker pull bobiologist/file-api:latest
 );
 ```
 
+## Common Commands
 
-docker network create mynet
+* docker network create mynet
 
-docker exec -it 33f453b722ca bash
-su postgres
-psql
-\c orderdb uorder
-
-
-create user uorder with password 'order123';
-alter role uorder with createdb;
-create database orderdb;
-database "orderdb" already exists
-grant all privileges on database orderdb to uorder
-alter database orderdb owner to uorder;
-
-mvn clean install
-docker build -t fileapi:lates .
-
-docker-compuse up -d
-docker-compuse down
+* docker exec -it 33f453b722ca bash
+* su postgres
+* psql
+* \c orderdb uorder
 
 
-lsof -i :5432
+* create user uorder with password 'order123';
+* alter role uorder with createdb;
+* create database orderdb;
+* database "orderdb" already exists
+* grant all privileges on database orderdb to uorder
+* alter database orderdb owner to uorder;
+
+* mvn clean install
+* docker build -t fileapi:lates .
+
+* docker-compuse up -d
+* docker-compuse down
+
+
+* lsof -i :5432
 
 
 
